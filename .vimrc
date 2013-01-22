@@ -25,7 +25,7 @@ set completeopt=menu
 
 " configure tags - add additional tags here or comment out not-used ones
 set tags+=~/.vim/tags/tags
-set tags+=~/.vim/tags/linux_include
+set tags+=~/.vim/tags/syscall_tags
 
 "set the auto complete menu color
 highlight Pmenu ctermbg=13 guibg=LightGray
@@ -62,7 +62,4 @@ let g:winManagerWidth=20
 ":WMToggle to open the winmanager
 map <F12> :WMToggle<CR>
 
-
-
-let g:EchoFuncLangsUsed = ["c","cpp"]
 let mapleader = ","
