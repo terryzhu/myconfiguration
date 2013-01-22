@@ -61,3 +61,8 @@ let g:persistentBehaviour=1
 let g:winManagerWidth=20
 ":WMToggle to open the winmanager
 map <F12> :WMToggle<CR>
+
+
+
+let g:EchoFuncLangsUsed = ["c","cpp"]
+let mapleader = ","
