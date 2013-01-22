@@ -1,11 +1,16 @@
 #!/bin/sh
 # This script is used to install the vim configuration automatically
 
-
+UPDATE=
 USER=`whoami`
 GROUP=`groups |cut -d' ' -f1`
-
 SYSCALL_CTAGS="$HOME/.vim/tags/syscall_tags"
+
+if [ X"$1" == "Xupdate"  ]
+then
+	echo "Now updating the config, it will not overwrite the existing files"
+	UPDATE=1
+fi
 
 
 echo "During the installation, you need to input the root password!"
