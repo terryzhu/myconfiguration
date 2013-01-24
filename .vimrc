@@ -24,7 +24,7 @@ filetype plugin on
 set completeopt=menu 
 
 " configure tags - add additional tags here or comment out not-used ones
-set tags+=~/.vim/tags/tags
+set tags+=~/.vim/tags/stltags
 set tags+=~/.vim/tags/syscall_tags
 
 "set the auto complete menu color
@@ -63,3 +63,10 @@ let g:winManagerWidth=20
 map <F12> :WMToggle<CR>
 
 let mapleader = ","
+
+
+" remember the old edit position
+autocmd BufReadPost *
+\ if line("'\"") > 1 && line("'\"") <= line("$") |
+\   exe "normal! g`\"" |
+\ endif

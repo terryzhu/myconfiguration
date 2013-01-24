@@ -1,7 +1,7 @@
 " File: project.vim
 " Author: Jeffy Du <jeffy.du@163.com>
 " Version: 0.1
-"
+"	Version: 0.2 zzhhuujjiiee@qq.com
 " Description:
 " ------------
 " This plugin provides a solution for creating project tags and cscope files.
@@ -36,8 +36,8 @@ let s:cpo_save = &cpo
 set cpo&vim
 
 " Global variables
-if !exists('g:project_data')
-    let g:project_data = "project_vim"
+if !exists('g:tags_dir')
+    let g:tags_dir = ""
 endif
 
 " flag for tags type
@@ -46,6 +46,19 @@ endif
 " "f" - function
 let s:HLUDFlag = ['d', 'e', 'f', 'g', 'p', 's', 't', 'u']
 let s:HLUDType = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+
+function! s:find_tag_dir()
+		" find the project root tags file
+		let tags_data = findfile("tags", ".;")
+		if tags_data == ''
+			return
+		endif
+		let pos = len(tags_data)
+		let dir_name = strpart(tags_data,0,pos - 4)
+		let g:tags_dir = dir_name
+endfunction
+
+
 
 " HLUDLoad                      {{{1
 " load user types
@@ -80,7 +93,6 @@ endfunction
 " HLUDSync                      {{{1
 " sync tag data
 function! s:HLUDSync(tagsfile, udtagfile)
-
 	" if tag file is not exist, do nothing.
 	if !filereadable(a:tagsfile)
 		return
@@ -117,29 +129,16 @@ endfunction
 " ProjectCreate                 {{{1
 " create project data
 function! s:ProjectCreate()
-    " create project data directory.
-    if !isdirectory(g:project_data)
-        call mkdir(g:project_data, "p")
-    endif
-
     " create tags file
     if executable('ctags')
-    "    call system('ctags -R --c++-kinds=+p --fields=+iaS --extra=+q -o ' . g:project_data . '/tags ' . getcwd())
+        call system('ctags -R --c++-kinds=+p --fields=+iaS --extra=+q -o  tags ' . getcwd())
     else
         call s:WarnMsg("command 'ctags' not exist.")
         return -1
     endif
 
-    " create cscope file
-    if executable('cscope')
-        call system('cscope -Rbqk -f' . g:project_data . "/cstags")
-    else
-   "     call s:WarnMsg("command 'cscope' not exist.")
-   "     return -1
-    endif
-
-    call s:HLUDSync(g:project_data . '/tags', g:project_data . '/udtags')
-    echon "create project done, "
+    call s:HLUDSync('tags',  'udtags')
+    echon "create project done"
     call s:ProjectLoad()
     return 1
 endfunction
@@ -147,30 +146,19 @@ endfunction
 " ProjectUpdate                 {{{1
 " update project data
 function! s:ProjectUpdate()
-    " find the project root directory.
-    let proj_data = finddir(g:project_data, getcwd() . ',.;')
-    if proj_data == ''
-        return
-    endif
-    exe 'cd ' . proj_data . "/.."
+	  call s:find_tag_dir()
+		let dir_name = g:tags_dir
+    exe 'cd ' . dir_name 
 
     " create tags file
     if executable('ctags')
-    "    call system('ctags -R --c++-kinds=+p --fields=+iaS --extra=+q -o ' . proj_data . '/tags ' . getcwd())
+        call system('ctags -R --c++-kinds=+p --fields=+iaS --extra=+q -o ' . tags_data  . getcwd())
     else
         call s:WarnMsg("command 'ctags' not exist.")
         return -1
     endif
 
-    " create cscope file
-    if executable('cscope')
-        call system('cscope -Rbqk -f' . proj_data . "/cstags")
-    else
- "       call s:WarnMsg("command 'cscope' not exist.")
-  "      return -1
-    endif
-
-    call s:HLUDSync(proj_data . '/tags', proj_data . '/udtags')
+    call s:HLUDSync('tags', 'udtags')
     call s:HLUDColor()
     echo "update project done."
     return 1
@@ -179,28 +167,10 @@ endfunction
 " ProjectLoad                   {{{1
 " load project data
 function! s:ProjectLoad()
-    " find the project root directory.
-    let proj_data = finddir(g:project_data, getcwd() . ',.;')
-    if proj_data == ''
-        return
-    endif
-    exe 'cd ' . proj_data . "/.."
-
-    " load tags.
-    let &tags = proj_data . '/tags,' . &tags
-
-    " load cscope.
-    if filereadable(proj_data . '/cstags')
-        set csto=1
-        set cst
-        set nocsverb
-        exe 'cs add ' . proj_data . '/cstags'
-        cs reset
-        set csverb
-    endif
-
-    " color user defined.
-    call s:HLUDLoad(proj_data . '/udtags')
+		call s:find_tag_dir()
+	 let dir_name = g:tags_dir
+		" color user defined.
+    call s:HLUDLoad(dir_name . 'udtags')
     call s:HLUDColor()
 
     echon "load project done."
@@ -210,18 +180,30 @@ endfunction
 " ProjectQuit                   {{{1
 " quit project
 function! s:ProjectQuit()
-    " find the project root directory.
-    let proj_data = finddir(g:project_data, getcwd() . ',.;')
-    if proj_data == ''
-        return
-    endif
-
-    " quit vim
-    exe 'qa'
-    return 1
 endfunction
 
 " }}}
+
+" Initialize the sys call types
+let g:syscall_udtags=expand("$HOME/.vim/tags/syscall_udtags")
+let g:syscall_tags=expand("$HOME/.vim/tags/syscall_tags")
+if !filereadable(g:syscall_udtags)
+	echo "It will take 1 minutes to initialize the sys call types"
+	call s:HLUDSync(g:syscall_tags,g:syscall_udtags)
+endif
+call s:HLUDLoad(g:syscall_udtags)
+call s:HLUDColor()
+
+
+" Initial the stl types
+let g:stl_udtags=expand("$HOME/.vim/tags/stludtags")
+let g:stl_tags=expand("$HOME/.vim/tags/stltags")
+if !filereadable(g:stl_udtags)
+	call s:HLUDSync(g:stl_tags,g:stl_udtags)
+endif
+"call s:HLUDLoad(g:stl_udtags)
+"call s:HLUDColor()
+
 
 command! -nargs=0 -complete=file ProjectCreate call s:ProjectCreate()
 command! -nargs=0 -complete=file ProjectUpdate call s:ProjectUpdate()
@@ -244,3 +226,4 @@ let &cpo = s:cpo_save
 unlet s:cpo_save
 
 " vim:set foldenable foldmethod=marker:
+
