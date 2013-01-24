@@ -184,26 +184,27 @@ endfunction
 
 " }}}
 
-" Initialize the sys call types
-let g:syscall_udtags=expand("$HOME/.vim/tags/syscall_udtags")
-let g:syscall_tags=expand("$HOME/.vim/tags/syscall_tags")
-if !filereadable(g:syscall_udtags)
-	echo "It will take 1 minutes to initialize the sys call types"
-	call s:HLUDSync(g:syscall_tags,g:syscall_udtags)
-endif
-call s:HLUDLoad(g:syscall_udtags)
-call s:HLUDColor()
-
-
-" Initial the stl types
-let g:stl_udtags=expand("$HOME/.vim/tags/stludtags")
-let g:stl_tags=expand("$HOME/.vim/tags/stltags")
-if !filereadable(g:stl_udtags)
-	call s:HLUDSync(g:stl_tags,g:stl_udtags)
-endif
-"call s:HLUDLoad(g:stl_udtags)
-"call s:HLUDColor()
-
+function! s:LoadSysHL()
+  " Initialize the sys call types
+  let g:syscall_udtags=expand("$HOME/.vim/tags/syscall_udtags")
+  let g:syscall_tags=expand("$HOME/.vim/tags/syscall_tags")
+  if !filereadable(g:syscall_udtags)
+  	echo "It will take 1 minutes to initialize the sys call types"
+  	call s:HLUDSync(g:syscall_tags,g:syscall_udtags)
+  endif
+  call s:HLUDLoad(g:syscall_udtags)
+  call s:HLUDColor()
+  
+  
+  " Initial the stl types
+  let g:stl_udtags=expand("$HOME/.vim/tags/stludtags")
+  let g:stl_tags=expand("$HOME/.vim/tags/stltags")
+  if !filereadable(g:stl_udtags)
+  	call s:HLUDSync(g:stl_tags,g:stl_udtags)
+  endif
+  "call s:HLUDLoad(g:stl_udtags)
+  "call s:HLUDColor()
+endfunction
 
 command! -nargs=0 -complete=file ProjectCreate call s:ProjectCreate()
 command! -nargs=0 -complete=file ProjectUpdate call s:ProjectUpdate()
@@ -226,4 +227,6 @@ let &cpo = s:cpo_save
 unlet s:cpo_save
 
 " vim:set foldenable foldmethod=marker:
+
+
 
