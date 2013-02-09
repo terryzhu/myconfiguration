@@ -21,15 +21,26 @@ set cindent
 
 filetype plugin on
 
-set completeopt=menu 
+set completeopt=menu
+"set the popup menu height
+set pumheight=10
 
-" configure tags - add additional tags here or comment out not-used ones
-set tags+=~/.vim/tags/stltags
-set tags+=~/.vim/tags/syscall_tags
 
 "set the auto complete menu color
 highlight Pmenu ctermbg=13 guibg=LightGray
 highlight PmenuSel  cterm=bold ctermfg=9 ctermbg=4
+
+hi CursorLine  cterm=NONE ctermbg=grey ctermfg=white guibg=darkred guifg=white
+
+" set the status line
+set laststatus=2
+set statusline=%2*%F%m%r%h%w\ \ \ \ \ \ \ [LEN=%L]\ \ \ \ \ [TYPE=%Y]\ \ \ \ \ [LINE=%04l]\ \ \ \ \ [%p%%]
+
+" ----------------- Plugin Configuration ------------
+
+" configure tags - add additional tags here or comment out not-used ones
+set tags+=~/.vim/tags/stltags
+set tags+=~/.vim/tags/syscall_tags
 
 " OmniCppComplete
 let OmniCpp_NamespaceSearch = 1
@@ -72,4 +83,7 @@ autocmd BufReadPost *
 \ endif
 
 
-let g:HL_Enable=1
+let HL_Enable=1
+let HL_STLEnable=0
+let HL_SysEnable=1
+

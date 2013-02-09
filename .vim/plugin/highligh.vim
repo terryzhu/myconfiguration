@@ -40,12 +40,27 @@ if !exists('g:tags_dir')
     let g:tags_dir = ""
 endif
 
+if !exists('HL_Enable')
+	let HL_Enable=0
+endif
+
+
+if !exists('HL_STLEnable')
+	let HL_STLEnable=0
+endif
+
+if !exists('HL_SysEnable')
+	let HL_SysEnable=0
+endif
+
+
+
 " flag for tags type
 " "d" - macro define
 " "e" - enum item
 " "f" - function
-let s:HLUDFlag = ['d', 'e', 'f', 'g', 'p', 's', 't', 'u']
-let s:HLUDType = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+let s:HLUDFlag = ['d', 'e', 'f', 'g', 'p', 's', 't', 'u','c']
+let g:HLUDType = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',' ']
 
 function! s:find_tag_dir()
 		" find the project root tags file
@@ -60,37 +75,43 @@ endfunction
 
 
 
-" HLUDLoad                      {{{1
+" HLUDLoad                      
 " load user types
 function! s:HLUDLoad(udtagfile)
 	if filereadable(a:udtagfile)
-		let s:HLUDType = readfile(a:udtagfile)
+		let s:HLTypeTmp = readfile(a:udtagfile)
+		let idx = 0
+		while idx < len(s:HLUDFlag)
+			let g:HLUDType[idx] = g:HLUDType[idx] . s:HLTypeTmp[idx]
+			let idx = idx + 1
+		endwhile
 	endif
 endfunction
 
-" HLUDGetTags                   {{{1
+" HLUDGetTags                   
 " get tag data by tag flag
 function! s:HLUDGetTags(flag)
 	let idx = index(s:HLUDFlag, a:flag)
 	if idx != -1
-		return s:HLUDType[idx]
+		return g:HLUDType[idx]
 	else
 		return ' '
 	endif
 endfunction
 
-" HLUDColor                     {{{1
+" HLUDColor                     
 " highlight tags data
 function! s:HLUDColor()
-	exec 'syn keyword cUserTypes X_X_X ' . s:HLUDGetTags('t') . s:HLUDGetTags('u') .  s:HLUDGetTags('s') . s:HLUDGetTags('g')
-	exec 'syn keyword cUserDefines X_X_X ' . s:HLUDGetTags('d') . s:HLUDGetTags('e')
-	exec 'syn keyword cUserFunctions X_X_X ' . s:HLUDGetTags('f') . s:HLUDGetTags('p')
-    exec 'hi cUserTypes ctermfg=green guifg=green'
-    exec 'hi cUserDefines ctermfg=red guifg=red'
-    exec 'hi cUserFunctions ctermfg=magenta guifg=magenta'
+		exec 'syn keyword cUserDefines X_X_X ' . s:HLUDGetTags('d') . s:HLUDGetTags('e')
+		exec 'syn keyword cUserFunctions X_X_X ' . s:HLUDGetTags('f') . s:HLUDGetTags('p')
+		exec 'syn keyword cUserTypes X_X_X ' . s:HLUDGetTags('t') . s:HLUDGetTags('u') .  s:HLUDGetTags('s') . s:HLUDGetTags('g') . s:HLUDGetTags('c') 
+    exec 'hi cUserTypes cterm=bold ctermfg=brown guifg=brown'
+    exec 'hi cUserDefines ctermfg=magenta guifg=magenta'
+    exec 'hi cUserFunctions ctermfg=red guifg=red'
+		echon "    Highlight Syntax Color Successful"
 endfunction
 
-" HLUDSync                      {{{1
+" HLUDSync                      
 " sync tag data
 function! s:HLUDSync(tagsfile, udtagfile)
 	" if tag file is not exist, do nothing.
@@ -99,7 +120,7 @@ function! s:HLUDSync(tagsfile, udtagfile)
 	endif
 
 	" parse tag file line by line.
-    let s:HLUDType = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+    let g:HLUDType = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',' ']
 	for line in readfile(a:tagsfile)
 		" parse tag flag
 		let idx = stridx(line, ';"' . "\t")
@@ -109,16 +130,16 @@ function! s:HLUDSync(tagsfile, udtagfile)
 			" parse and save flag
 			let idx = index(s:HLUDFlag, s:flag)
 			if idx != -1
-				let s:HLUDType[idx] = s:HLUDType[idx] . matchstr(line, '^\<\h\w*\>') . ' '
+				let g:HLUDType[idx] = g:HLUDType[idx] . matchstr(line, '^\<\h\w*\>') . ' '
 			endif
 		endif
 	endfor
 
 	" write tags data to file.
-	call writefile(s:HLUDType, a:udtagfile)
+	call writefile(g:HLUDType, a:udtagfile)
 endfunction
 
-" WarnMsg                       {{{1
+" WarnMsg                       
 " display a warning message
 function! s:WarnMsg(msg)
     echohl WarningMsg
@@ -126,7 +147,7 @@ function! s:WarnMsg(msg)
     echohl None
 endfunction
 
-" ProjectCreate                 {{{1
+" ProjectCreate                 
 " create project data
 function! s:ProjectCreate()
     " create tags file
@@ -139,11 +160,10 @@ function! s:ProjectCreate()
 
     call s:HLUDSync('tags',  'udtags')
     echon "create project done"
-    call s:ProjectLoad()
     return 1
 endfunction
 
-" ProjectUpdate                 {{{1
+" ProjectUpdate                 
 " update project data
 function! s:ProjectUpdate()
 	  call s:find_tag_dir()
@@ -164,25 +184,40 @@ function! s:ProjectUpdate()
     return 1
 endfunction
 
-" ProjectLoad                   {{{1
+" ProjectLoad                   
 " load project data
 function! s:ProjectLoad()
+		if g:HL_Enable == 0
+			return 1
+		endif
+		if g:HL_SysEnable == 1
+			call s:LoadSysHL()
+		endif
+		if g:HL_STLEnable == 1
+			call s:LoadSTLHL()
+		endif
 		call s:find_tag_dir()
 	 let dir_name = g:tags_dir
 		" color user defined.
     call s:HLUDLoad(dir_name . 'udtags')
-    call s:HLUDColor()
-
-    echon "load project done."
+		echon "    Load Project done."
     return 1
 endfunction
 
-" ProjectQuit                   {{{1
+" ProjectQuit                   
 " quit project
 function! s:ProjectQuit()
 endfunction
 
-" }}}
+function! s:LoadSTLHL()
+  " Initial the stl types
+ 	 let g:stl_udtags=expand("$HOME/.vim/tags/stludtags")
+ 	 let g:stl_tags=expand("$HOME/.vim/tags/stltags")
+	 if !filereadable(g:stl_udtags)
+  	call s:HLUDSync(g:stl_tags,g:stl_udtags)
+  endif
+ 	 call s:HLUDLoad(g:stl_udtags)
+endfunction
 
 function! s:LoadSysHL()
   " Initialize the sys call types
@@ -193,33 +228,24 @@ function! s:LoadSysHL()
   	call s:HLUDSync(g:syscall_tags,g:syscall_udtags)
   endif
   call s:HLUDLoad(g:syscall_udtags)
-  call s:HLUDColor()
-  
-  
-  " Initial the stl types
-  let g:stl_udtags=expand("$HOME/.vim/tags/stludtags")
-  let g:stl_tags=expand("$HOME/.vim/tags/stltags")
-  if !filereadable(g:stl_udtags)
-  	call s:HLUDSync(g:stl_tags,g:stl_udtags)
-  endif
-  "call s:HLUDLoad(g:stl_udtags)
-  "call s:HLUDColor()
 endfunction
 
 command! -nargs=0 -complete=file ProjectCreate call s:ProjectCreate()
 command! -nargs=0 -complete=file ProjectUpdate call s:ProjectUpdate()
 command! -nargs=0 -complete=file ProjectLoad call s:ProjectLoad()
 command! -nargs=0 -complete=file ProjectQuit call s:ProjectQuit()
+command! -nargs=0 -complete=file HighlightCode call s:HLUDColor()
 
 aug Project
-    au VimEnter * call s:ProjectLoad()
+    au VimEnter,FileType c,cpp,h  call s:ProjectLoad()
     au VimLeavePre * call s:ProjectQuit()
-    au BufEnter,FileType c,cpp call s:HLUDColor()
+    au BufEnter,FileType c,cpp,h call s:HLUDColor()
 aug END
 
 nnoremap <leader>jc :ProjectCreate<cr>
 nnoremap <leader>ju :ProjectUpdate<cr>
 nnoremap <leader>jl :ProjectLoad<cr>
+nnoremap <leader>jh :HighlightCode<cr>
 nnoremap <leader>jq :ProjectQuit<cr>
 
 " restore 'cpo'
