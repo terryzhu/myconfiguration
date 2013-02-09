@@ -1,5 +1,7 @@
 all my configuration
 ===============
+[my blog](http://blog.csdn.net/unhappypeople/)
+
 
 store all the software configuration
 
