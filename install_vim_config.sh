@@ -113,14 +113,16 @@ fi
 if [ ! -f $STL_TAGS ]
 then
 	echo "Generating the stl ctags file"
-	ctags  -I __THROW  -I __THROWNL -I __attribute_pure__ -I __nonnull -I __attribute__ -R --c-kinds=+p --fields=+iaS --extra=+q --language-force=C++  -o $STL_TAGS  ./.vim/stlfiles/
+	ctags  -I __THROW  -I __THROWNL -I __attribute_pure__ -I __nonnull -I __attribute__ -R --c-kinds=+p --fields=+iaS --extra=+q --language-force=C++  -o $STL_TAGS  $HOME/.vim/stlfiles/
 	echo "stl ctags file has been generated in $STL_TAGS"
 else
 	echo "$STL_TAGS has been installed yet, do nothing"
 fi
 
-
-
+echo "Installation is finished!"
+echo "Please NOTICE that it will take about one minute to generate the highlight keyword file when first time ENTER Vim."
+echo "Please Wait patiently :-)"
+echo "Good Luck, Thank you"
 
 
 
