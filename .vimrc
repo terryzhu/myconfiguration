@@ -51,6 +51,7 @@ let OmniCpp_MayCompleteDot = 1 " autocomplete after .
 let OmniCpp_MayCompleteArrow = 1 " autocomplete after ->
 let OmniCpp_MayCompleteScope = 1 " autocomplete after ::
 let OmniCpp_ShowScopeInAbbr = 1
+let OmniCpp_SelectFirstItem = 2
 
 let g:acp_enableAtStartup = 0 "disable it
 let g:acp_behaviorKeywordCommand="\<C-x>\<C-o>"
