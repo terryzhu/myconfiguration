@@ -1,6 +1,8 @@
 set nocompatible
 set nu
 set noswapfile
+syntax on
+set backspace=2
 nmap <C-B> <LEFT>
 nmap <C-F> <RIGHT>
 nmap <C-P> <UP>
@@ -27,7 +29,7 @@ set pumheight=10
 
 
 "set the auto complete menu color
-highlight Pmenu ctermbg=13 guibg=LightGray
+"highlight Pmenu ctermbg=13 guibg=LightGray
 highlight PmenuSel  cterm=bold ctermfg=9 ctermbg=4
 
 hi CursorLine  cterm=NONE ctermbg=grey ctermfg=white guibg=darkred guifg=white
@@ -85,6 +87,6 @@ autocmd BufReadPost *
 
 
 let HL_Enable=1
-let HL_STLEnable=0
+let HL_STLEnable=1
 let HL_SysEnable=1
 
