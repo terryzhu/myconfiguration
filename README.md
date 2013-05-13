@@ -1,13 +1,10 @@
 all my configuration
 ===============
-[my blog](http://blog.csdn.net/unhappypeople/)
-
+[http://blog.csdn.net/unhappypeople/](http://blog.csdn.net/unhappypeople/)
 
 store all the software configuration
 
-Until 2013.2.6
-
-It just contains the VIM config which I am learning
+It just contains the VIM config which I am learning and eclipse color config
 
 Installation:
 git clone it or download the zip file and unzip it
