@@ -90,3 +90,4 @@ let HL_Enable=1
 let HL_STLEnable=1
 let HL_SysEnable=1
 
+set clipboard=autoselect,exclude:.*
