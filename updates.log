@@ -1,0 +1,7 @@
+2013.5.13
+in Linux SUSE 10 virtual machine, when the /usr/include contains much header files such as QT, Boost, it will take about 30 seconds to startup vim, so I remove lots of useless tags
+
+=
+
+2013.5.10
+tags to udtags took too long time even if in i7 CPU, so I write down a c++ program to implement it, which is 100 faster than vim script!!
