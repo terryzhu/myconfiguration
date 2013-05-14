@@ -5,3 +5,7 @@ in Linux SUSE 10 virtual machine, when the /usr/include contains much header fil
 
 2013.5.10
 tags to udtags took too long time even if in i7 CPU, so I write down a c++ program to implement it, which is 100 faster than vim script!!
+=
+
+2013.5.14
+now the tag header files can be defined by user in .vim/tag/taglists.txt

@@ -102,7 +102,7 @@ then
 	#echo "During the installation, you need to input the root password!"
 	#echo "Press ENTER to continue ..."
 	#read input
-	ctags  -I __THROW  -I __THROWNL -I __attribute_pure__ -I __nonnull -I __attribute__ -R --c-kinds=+p --fields=+iaS --extra=+q --language-force=C  -o $SYSCALL_CTAGS --exclude=/usr/include/k*.h   /usr/include/*.h /usr/include/sys/*.h  
+	ctags  -I __THROW  -I __THROWNL -I __attribute_pure__ -I __nonnull -I __attribute__ -R --c-kinds=+p --fields=+iaS --extra=+q --language-force=C  -o $SYSCALL_CTAGS `cat $HOME/.vim/tags/taglists.txt`
 	#sudo chown $USER $SYSCALL_CTAGS
 	#sudo chgrp $GROUP $SYSCALL_CTAGS
 	echo "ctags file has been generated in $SYSCALL_CTAGS"
