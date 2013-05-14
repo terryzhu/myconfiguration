@@ -28,7 +28,7 @@ int main(int argc, char ** argv) {
         dat[type] += key + " ";
     }
 
-    int taglist[] = { 'd', 'e', 'f', 'g', 'p', 's', 't', 'u', 'c' };
+    int taglist[] = { 'd', 'e', 'f', 'g', 'p', 's', 't', 'u', 'm' };
     for (int i = 0; i < 9; i++) {
         ofs << dat[taglist[i]] << endl;
     }

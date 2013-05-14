@@ -59,7 +59,7 @@ endif
 " "d" - macro define
 " "e" - enum item
 " "f" - function
-let s:HLUDFlag = ['d', 'e', 'f', 'g', 'p', 's', 't', 'u','c']
+let s:HLUDFlag = ['d', 'e', 'f', 'g', 'p', 's', 't', 'u','m']
 let g:HLUDType = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ',' ']
 
 function! s:find_tag_dir()
@@ -104,7 +104,7 @@ endfunction
 function! s:HLUDColor()
 		exec 'syn keyword cUserDefines X_X_X ' . s:HLUDGetTags('d') . s:HLUDGetTags('e')
 		exec 'syn keyword cUserFunctions X_X_X ' . s:HLUDGetTags('f') . s:HLUDGetTags('p')
-		exec 'syn keyword cUserTypes X_X_X ' . s:HLUDGetTags('t') . s:HLUDGetTags('u') .  s:HLUDGetTags('s') . s:HLUDGetTags('g') . s:HLUDGetTags('c') 
+		exec 'syn keyword cUserTypes X_X_X ' . s:HLUDGetTags('t') . s:HLUDGetTags('u') .  s:HLUDGetTags('s') . s:HLUDGetTags('g') . s:HLUDGetTags('m') 
     exec 'hi cUserTypes cterm=bold ctermfg=brown guifg=brown'
     exec 'hi cUserDefines ctermfg=magenta guifg=magenta'
     exec 'hi cUserFunctions ctermfg=red guifg=red'
