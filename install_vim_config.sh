@@ -109,14 +109,6 @@ then
 else
 	echo "$SYSCALL_CTAGS has been installed yet, do nothing"
 fi
-
-# Install the syscall utags
-echo "Building the syscall utags because it's big"
-SYSCALL_UTAGS="$HOME/.vim/tags/syscall_udtags"
-g++ -o $HOME/.vim/tags/gen_utags $HOME/.vim/tags/gen_utags.cpp
-$HOME/.vim/tags/gen_utags "$SYSCALL_CTAGS" "$SYSCALL_UTAGS" 
-echo "Building finished!"
-
 if [ ! -f $STL_TAGS ]
 then
 	echo "Generating the stl ctags file"
@@ -125,6 +117,19 @@ then
 else
 	echo "$STL_TAGS has been installed yet, do nothing"
 fi
+
+# Install the syscall and stl utags
+echo "Building the syscall and stl utags because it's big"
+SYSCALL_UTAGS="$HOME/.vim/tags/syscall_udtags"
+STLCALL_UTAGS="$HOME/.vim/tags/stludtags"
+
+g++ -o $HOME/.vim/tags/gen_utags $HOME/.vim/tags/gen_utags.cpp
+
+$HOME/.vim/tags/gen_utags "$SYSCALL_CTAGS" "$SYSCALL_UTAGS" 
+$HOME/.vim/tags/gen_utags "$STL_TAGS" "$STLCALL_UTAGS"
+
+echo "Building finished!"
+
 
 echo "Installation is finished!"
 echo "Please NOTICE that it will take about one minute to generate the highlight keyword file when first time ENTER Vim."

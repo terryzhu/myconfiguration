@@ -103,12 +103,25 @@ endfunction
 " highlight tags data
 function! s:HLUDColor()
 		exec 'syn keyword cUserDefines X_X_X ' . s:HLUDGetTags('d') . s:HLUDGetTags('e')
-		exec 'syn keyword cUserFunctions X_X_X ' . s:HLUDGetTags('f') . s:HLUDGetTags('p')
+		exec 'syn keyword cUserFunctions X_X_X ' . s:HLUDGetTags('f') . s:HLUDGetTags('p') . ' ' . s:GetKeywords()
 		exec 'syn keyword cUserTypes X_X_X ' . s:HLUDGetTags('t') . s:HLUDGetTags('u') .  s:HLUDGetTags('s') . s:HLUDGetTags('g') . s:HLUDGetTags('m') 
     exec 'hi cUserTypes cterm=bold ctermfg=brown guifg=brown'
     exec 'hi cUserDefines ctermfg=magenta guifg=magenta'
     exec 'hi cUserFunctions ctermfg=red guifg=red'
 		echon "    Highlight Syntax Color Successful"
+endfunction
+
+" User defined keywords
+function! s:GetKeywords()
+		let s:keyPath =  expand("$HOME/.vim/tags/keywords.txt")
+		if !filereadable(s:keyPath)
+			return 
+		endif
+		let s:keyList = ' '
+		for line in readfile(s:keyPath)
+			let s:keyList = s:keyList . ' ' . line . ' '
+		endfor
+		return s:keyList
 endfunction
 
 " HLUDSync                      
