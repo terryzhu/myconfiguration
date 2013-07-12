@@ -102,14 +102,13 @@ then
 	#echo "During the installation, you need to input the root password!"
 	#echo "Press ENTER to continue ..."
 	#read input
-	ctags  -I __THROW  -I __THROWNL -I __attribute_pure__ -I __nonnull -I __attribute__ -R --c-kinds=+p --fields=+iaS --extra=+q --language-force=C  -o $SYSCALL_CTAGS /usr/include/ 
+	ctags  -I __THROW  -I __THROWNL -I __attribute_pure__ -I __nonnull -I __attribute__ -R --c-kinds=+p --fields=+iaS --extra=+q --language-force=C  -o $SYSCALL_CTAGS `cat $HOME/.vim/tags/taglists.txt`
 	#sudo chown $USER $SYSCALL_CTAGS
 	#sudo chgrp $GROUP $SYSCALL_CTAGS
 	echo "ctags file has been generated in $SYSCALL_CTAGS"
 else
 	echo "$SYSCALL_CTAGS has been installed yet, do nothing"
 fi
-
 if [ ! -f $STL_TAGS ]
 then
 	echo "Generating the stl ctags file"
@@ -118,6 +117,19 @@ then
 else
 	echo "$STL_TAGS has been installed yet, do nothing"
 fi
+
+# Install the syscall and stl utags
+echo "Building the syscall and stl utags because it's big"
+SYSCALL_UTAGS="$HOME/.vim/tags/syscall_udtags"
+STLCALL_UTAGS="$HOME/.vim/tags/stludtags"
+
+g++ -o $HOME/.vim/tags/gen_utags $HOME/.vim/tags/gen_utags.cpp
+
+$HOME/.vim/tags/gen_utags "$SYSCALL_CTAGS" "$SYSCALL_UTAGS" 
+$HOME/.vim/tags/gen_utags "$STL_TAGS" "$STLCALL_UTAGS"
+
+echo "Building finished!"
+
 
 echo "Installation is finished!"
 echo "Please NOTICE that it will take about one minute to generate the highlight keyword file when first time ENTER Vim."

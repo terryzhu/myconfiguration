@@ -1,0 +1,4 @@
+std
+cout
+cin
+sizeof

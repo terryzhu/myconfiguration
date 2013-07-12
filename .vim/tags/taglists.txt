@@ -1,0 +1,7 @@
+--exclude=/usr/include/k*.h
+/usr/include/*.h
+/usr/include/sys/*.h
+/usr/include/netinet/in.h
+/usr/include/arpa/inet.h
+/usr/include/bits/*.h
+/usr/include/linux/in.h
