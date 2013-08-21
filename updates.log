@@ -11,3 +11,6 @@ tags to udtags took too long time even if in i7 CPU, so I write down a c++ progr
 now the tag header files can be defined by user in .vim/tag/taglists.txt
 use std::set to improve the highlight performance
 add user defined keywords highlight
+
+2013.8.21
+add the tiny configuration, it's suitable for a large scale project such as containing 5000 files, compared with the previous version, it didn't include the function syntax highlight

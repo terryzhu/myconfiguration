@@ -12,6 +12,7 @@ printHelp()
 	echo -e "# Usage:                                                                                   #"
 	echo -e "#     ./install_vim_config install    to install the vim configuration or                  #"
 	echo -e "#     ./install_vim_config clean      to clean up all configuration(remove \$HOME/.vim/)    #"
+	echo -e "#     ./install_vim_config tiny       to install the tiny vim cfg                          #"
 	echo -e "# \033[31mYour Vim version MUST >= 7,if not, maybe there will be some problems !!!\033[0m                 #"
 	echo -e "#                                                                                          #"
 	echo -e "############################################################################################\n"
@@ -32,7 +33,7 @@ inquiryVersion()
 SYSCALL_CTAGS="$HOME/.vim/tags/syscall_tags"
 STL_TAGS="$HOME/.vim/tags/stltags"
 
-if [ "X$1" != "Xclean" -a "X$1" != "Xinstall" ]
+if [ "X$1" != "Xclean" -a "X$1" != "Xinstall" -a "X$1" != "Xtiny" ]
 then
 	printHelp
 	exit 0
@@ -82,6 +83,18 @@ then
 	echo "Backup the old .vimrc file"
 	cp $HOME/.vimrc $HOME/.vimrc.bk
 fi
+
+if [ "X$1" == "Xtiny" ]
+then
+	echo "Removing the old plugin"
+	rm -rf $HOME/.vim
+	echo "Copying the .vimrc file"
+	cp TinyVimCfg/.vimrc $HOME/.vimrc
+	echo "Copying all the plugins"
+	cp -a TinyVimCfg/.vim/ $HOME/
+	exit
+fi
+
 
 echo "Copying the .vimrc file"
 cp .vimrc $HOME/.vimrc

@@ -1,0 +1,10 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =8
+let g:netrw_dirhist_1='/home/zj/.vim/doc'
+let g:netrw_dirhist_2='/home/zj/project/winmanager/doc'
+let g:netrw_dirhist_3='/proj/MPS_DEV_REPO/eprtuxy/eprtuxy_rdc_gmpc_fix_13b_linux/SOURCE_GMPC/gmpc/anyphone/anyphonedata'
+let g:netrw_dirhist_4='/proj/MPS_DEV_REPO/eprtuxy/eprtuxy_rdc_gmpc_fix_13b_linux/SOURCE_GMPC/gmpc/anyphone/defs'
+let g:netrw_dirhist_5='/proj/MPS_DEV_REPO/eprtuxy/eprtuxy_rdc_gmpc_fix_13b_linux/SOURCE_GMPC/gmpc/anyphone/anycore'
+let g:netrw_dirhist_6='/proj/MPS_DEV_REPO/eprtuxy/eprtuxy_rdc_g11_wp_fp_linux/SOURCE_GMPC/gmpc'
+let g:netrw_dirhist_7='/proj/MPS_DEV_REPO/eprtuxy/eprtuxy_rdc_g11_wp_fp_linux/SOURCE_GMPC/gmpc/trigger/protocol'
+let g:netrw_dirhist_8='/proj/MPS_DEV_REPO/eprtuxy/eprtuxy_rdc_g11_wp_fp_linux/SOURCE_GMPC/gmpc/anyphone'
