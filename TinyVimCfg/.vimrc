@@ -36,8 +36,6 @@ set statusline=%2*\ %F%m%r%h%w\ \ [%l/%L]\ [%p%%]
 set ignorecase
 filetype plugin on
 
-nnoremap <silent> <F12> :TlistToggle<CR>
-map <F11> :NERDTreeToggle<CR>
 let g:winManagerWidth=25
 let g:AutoOpenWinManager=0
 let Tlist_Use_Right_Window=1
@@ -92,8 +90,6 @@ let g:ctrlp_max_height = 10
 let g:ctrlp_custom_ignore = {
     \ 'dir':  '\v[\/]\.(git|hg|svn)$',
     \ 'file': '\v\.(exe|dll|a|o|so|lo|la|pyc|d)$' }
-noremap <unique> <silent> <F6> :CtrlP<CR>
-noremap <unique> <silent> <F8> :CtrlPBuffer<CR>
 let g:ctrlp_map ='F7'
 
 
@@ -126,4 +122,15 @@ set completeopt=menu,longest
 " set ctrl d/u line number
 set scroll=3
 
+" F6
+noremap <unique> <silent> <F6> :CtrlP<CR>
+" F7
 nmap <F7> :bprevious<CR>:bdelete #<CR>
+" F8
+noremap <unique> <silent> <F8> :CtrlPBuffer<CR>
+" F10
+nmap <F10> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .
+" F11
+map <F11> :NERDTreeToggle<CR>
+" F12
+nnoremap <silent> <F12> :TlistToggle<CR>
