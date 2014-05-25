@@ -1,0 +1,3 @@
+eclipse_settings.epf 是 Eclipse的一些颜色配置
+
+CodeAssistFix里存放着修改Eclipse的一个bug
